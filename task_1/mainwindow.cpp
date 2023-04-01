@@ -14,6 +14,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 
 MainWindow::~MainWindow()
 {
+    delete _timer;
     delete ui;
 }
 
@@ -28,7 +29,7 @@ void MainWindow::on_pbt_startStop_clicked()
 {
     if(ui->pbt_laps->isEnabled()){
         _timer->Stop();
-        disconnect(_timer, SIGNAL(sig_TimeSignal()), this, SLOT(RcvTimeSignal()));
+        disconnect(_timer, &Stopwatch::sigTimeSignal, this, &MainWindow::RcvTimeSignal);
         ui->pbt_startStop->setText("Старт");
         ui->pbt_laps->setEnabled(false) ;
     }
@@ -36,14 +37,14 @@ void MainWindow::on_pbt_startStop_clicked()
          ui->pbt_laps->setEnabled(true) ;
          ui->pbt_startStop->setText("Стоп");
         _timer->Start();
-        connect(_timer, SIGNAL(sig_TimeSignal()), this, SLOT(RcvTimeSignal()));
+        connect(_timer, &Stopwatch::sigTimeSignal, this, &MainWindow::RcvTimeSignal);
     }
 }
 
 
 void MainWindow::on_pbt_laps_clicked()
 {
-    ui->te_lapsLog->append("Круг № " + QString::number(++_lapsCount) + ", время: " + ui->lb_time->text() + " сек.");
+    ui->te_lapsLog->append(QString("Круг № %1, время: %2 сек.").arg(++_lapsCount).arg(ui->lb_time->text()));
 }
 
 

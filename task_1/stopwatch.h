@@ -10,6 +10,7 @@ class Stopwatch : public QObject
 
 public:
     explicit Stopwatch(const int, QObject* );
+    ~Stopwatch();
     void Start( void);
     void Stop(void);
     void SendTimeSignal(void);
@@ -18,7 +19,7 @@ private:
     QTimer* _timer;
 
 signals:
-    void sig_TimeSignal(void);
+    void sigTimeSignal(void);
 
 private slots:
     void updateTime();

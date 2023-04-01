@@ -7,6 +7,11 @@ Stopwatch::Stopwatch(const int TimeInterval, QObject* parent = nullptr) : QObjec
     _timer->setInterval(TimeInterval);
 }
 
+Stopwatch::~Stopwatch()
+{
+    delete _timer;
+}
+
 void Stopwatch::Start()
 {
     connect(_timer, SIGNAL(timeout()), this, SLOT(updateTime()));
@@ -22,11 +27,11 @@ void Stopwatch::Stop()
 void Stopwatch::SendTimeSignal()
 {
     //Код
-    emit sig_TimeSignal();
+    emit sigTimeSignal();
     //Продолжение кода
 }
 
 void Stopwatch::updateTime()
 {
-    emit sig_TimeSignal();
+    emit sigTimeSignal();
 }
